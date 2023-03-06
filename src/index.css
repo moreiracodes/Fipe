@@ -1,0 +1,104 @@
+html, body{
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+font-size: 1.1em;
+padding: 0;
+margin: 0;
+height: 100%;
+background-color: rgb(156, 238, 211);
+text-align: justify;
+}
+p {
+    padding: .5em 0 ;
+    margin: 0;
+}
+
+ol li{
+    padding: 0.5em 0 ;
+}
+a{
+    color: brown;
+    text-decoration: none;
+}
+a:hover{
+    color: red;
+}
+.content{
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgb(144, 226, 181);
+    padding: 2em;
+}
+table, tbody, tr {
+    margin: 0; 
+    padding: 0;
+    border: 0.01em dotted rgb(134, 134, 134); 
+}
+
+td{
+    border: 0.01em dotted rgb(134, 134, 134); 
+    margin: 0;
+    padding: 0.2em;
+}
+
+.content h1{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    padding: .6em;
+    margin: 0;
+
+}
+.content .formulario, .informacoes{
+    padding: 1rem;
+}
+.formulario, .informacoes{
+    background-color: rgb(198, 247, 198);
+}
+.formulario{
+    text-align: center;
+}
+.formulario form .line p {
+    text-align: center;
+}
+
+.formulario form .line {
+    background-color: rgb(95, 161, 89);
+    border-bottom:.1em dashed black;
+    padding-bottom: 1em;
+    
+}
+.formulario form .line div{
+    padding: 2%;
+    text-align: center;
+}
+
+.formulario form .line .selectContent select{
+    border-radius: 0.5em;
+    width: 20em;
+    height: 3em;
+    padding: .5em;
+}
+.formulario form button {
+    width: 20em;
+    height: 3em;
+    background-color: yellow;
+    margin-top: 2em;
+    border-radius: 0.5em;
+    font-weight: bold;
+}
+.formulario form button:hover{
+    cursor: pointer;
+    background-color: burlywood;
+}
+.result{
+    width: 96%;
+    padding: 10% 0;
+}
+.result table{
+    width: 80%;
+    margin: 0 10%;
+}
+.copyright{
+    padding: 3em;
+    font-size: .9em;
+}
