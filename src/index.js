@@ -1,12 +1,16 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
+import "../src/index.css";
 
 class Fipe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          tipoAuto: ["cars", "motorcycles", "trucks"],
+          tipoAuto: [
+            "cars", 
+            "motorcycles", 
+            "trucks"],
           marcasArr: [],
           modeloArr: [],
           anoArr:[],
@@ -25,6 +29,7 @@ class Fipe extends React.Component {
         this.setModeloSelecionado = this.setModeloSelecionado.bind(this);
         this.setAnoSelecionado = this.setAnoSelecionado.bind(this);
         this.setVeiculoSelecionado = this.setVeiculoSelecionado.bind(this);
+        
     }
  
     setTipoSelecionado(value){
@@ -68,15 +73,7 @@ class Fipe extends React.Component {
         })
     }
     render(){
-        //console.log("No render de FIPE o valor de AnoArr é: ");
-        //console.log(this.state.anoArr);
-        return (
-            <div>
-            <Formulario 
-                fipe = {this}
-            />
-            </div>
-        );
+        return (<Formulario fipe = {this}/>);
     }
 }
 class Veiculo extends React.Component {
@@ -85,35 +82,8 @@ class Veiculo extends React.Component {
       this.state = {
         fipe: this.props.fipe,
         auto: this.props.fipe.state.veiculoSelecionado,
-       // api: this.props.api,
-        historicoDePrecos: [],
       }
-      this.historicoDePrecos = this.historicoDePrecos.bind(this);
-    }
-    componentDidMount(){
-        if(this.state.fipe.state.anoSelecionado){
-            this.historicoDePrecos();
-        }
-    }
-    historicoDePrecos(){
-        let strAPI = "https://parallelum.com.br/fipe/api/v2/"
-                         + this.state.fipe.state.tipoSelecionado + "/" 
-                         + this.state.auto.codeFipe + "/years/"
-                         + this.state.fipe.state.anoSelecionado + "/history";
-
-        fetch(strAPI)
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("exibe historico de precos");
-            console.log(data); 
-            
-            this.setState({historicoDePrecos: data.priceHistory});
-        })
-        .catch((erro) => {
-          console.log("erro no fetch then: "+ erro);
-        });
-
-        
+ 
 
     }
     render(){
@@ -122,7 +92,7 @@ class Veiculo extends React.Component {
         if(auto !== null){
             
             result = 
-                    <table>
+                    <table cellspacing="0" cellpadding="0">
                         <tbody>
                             <tr>
                                 <td>Cód. FIPE</td>
@@ -152,7 +122,7 @@ class Veiculo extends React.Component {
                     </table>
             }
         
-        return (<div>{result}</div>);
+        return (<div className="result">{result}</div>);
     }
 }
 class Select extends React.Component {
@@ -169,6 +139,7 @@ class Select extends React.Component {
       this.setMarca = this.setMarca.bind(this);
       this.setModelo = this.setModelo.bind(this);
       this.setAno = this.setAno.bind(this);
+      this.exibeCategoria = this.exibeCategoria.bind(this);
     }
 
     setCategoria(e){
@@ -246,66 +217,90 @@ class Select extends React.Component {
         });
     }
     
+    exibeCategoria(categoria){
+        if(categoria === 'cars'){
+            return "Carros"
+        }else if(categoria === 'motorcycles'){
+            return "Motos"
+        }else if(categoria === 'trucks'){
+            return "Caminhões e Ônibus"
+        }
+    }
 
     render(){
         let content;
-        
-       
-
         if(this.state.name === 'tipoAuto'){
-            content =   <select 
-                            value={this.fipe.state.tipoSelecionado} 
-                            name='tipoAuto'
-                            onChange={this.setCategoria}
-                            defaultValue="default">
-                            <option valeu="default">Escolha um tipo de veículo</option>
-                            {this.fipe.state.tipoAuto.map((auto) => 
-                            <option value={auto}>{auto}</option>
-                            )}
-                        </select>;
+            content =   <div className="line">
+                            <p>Categoria</p>
+                            <div className="selectContent">
+                                <select 
+                                    value={this.fipe.state.tipoSelecionado} 
+                                    name='tipoAuto'
+                                    onChange={this.setCategoria}
+                                    defaultValue="default">
+                                    <option valeu="default">Escolha um tipo de veículo</option>
+                                    {
+                                    
+                                    this.fipe.state.tipoAuto.map((auto) => 
+                                       
+                                        <option value={auto}>{this.exibeCategoria(auto)}</option>
+                                        
+                                    )}
+                                </select>
+                            </div>
+                        </div>;
         }else if(this.state.name === 'marca'){
-            content = 
-                    <select 
-                        value={this.fipe.state.marcaSelecionada} 
-                        name={this.state.name} 
-                        onChange={this.setMarca}>
-                        <option>Escolha uma marca</option>
-                        {this.fipe.state.marcasArr.map((marca) => 
-                        <option value={marca.code}>{marca.name}</option>
-                        )}
-                    </select>
+            content =   <div className="line">
+                            <p>Marca</p>
+                            <div className="selectContent">
+                                <select 
+                                    value={this.fipe.state.marcaSelecionada} 
+                                    name={this.state.name} 
+                                    onChange={this.setMarca}>
+                                    <option>Escolha uma marca</option>
+                                    {this.fipe.state.marcasArr.map((marca) => 
+                                    <option value={marca.code}>{marca.name}</option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>;
+
         }else if(this.state.name === 'modelo'){
-            content = 
-                    <select 
-                        value={this.fipe.state.modeloSelecionado} 
-                        name={this.state.name} 
-                        onChange={this.setModelo}>
-                        <option>Escolha um modelo</option>
-                        {this.fipe.state.modeloArr.map((modelo) => 
-                        <option value={modelo.code}>{modelo.name}</option>
-                        )}
-                    </select>
+            content =   <div className="line">
+                            <p>Modelo</p>
+                            <div className="selectContent">
+                                <select 
+                                    value={this.fipe.state.modeloSelecionado} 
+                                    name={this.state.name} 
+                                    onChange={this.setModelo}>
+                                    <option>Escolha um modelo</option>
+                                    {this.fipe.state.modeloArr.map((modelo) => 
+                                    <option value={modelo.code}>{modelo.name}</option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>;
         }else if(this.state.name === 'ano'){
 
-            content = 
-                    <select 
-                        value={this.fipe.state.anoSelecionado} 
-                        name={this.state.name} 
-                        onChange={this.setAno}>
-                        <option>Escolha o ano</option>
-                        {this.fipe.state.anoArr.map((ano) => 
-                        <option value={ano.code}>{ano.name}</option>
-                        )}
-                    </select>
+            content =   <div className="line">
+                            <p>Ano Modelo</p>
+                            <div className="selectContent">
+                                <select 
+                                    value={this.fipe.state.anoSelecionado} 
+                                    name={this.state.name} 
+                                    onChange={this.setAno}>
+                                    <option>Escolha o ano</option>
+                                    {this.fipe.state.anoArr.map((ano) => 
+                                    <option value={ano.code}>{ano.name}</option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>;
+
         }
 
-        
         return(
-            <div className="formulario">
-               
-                {content}
-               
-            </div>
+            <div>{content}</div>
         );
     }
 }
@@ -321,30 +316,46 @@ class Formulario extends React.Component {
         this.fipe.setModeloSelecionado(null);
         this.fipe.setAnoSelecionado(null);
         this.fipe.setVeiculoSelecionado(null);
-        
     }
 
     render(){
 
         return (
-            <div>
+            <div className="formulario">
                 <form>
-                    <div>
-                        <Select name = 'tipoAuto' fipe={this.fipe} api={this} />
-                        {(this.fipe.state.tipoSelecionado !== null) ? <Select name = 'marca' fipe={this.fipe} api={this} /> : ""}
-                        {(this.fipe.state.marcaSelecionada !== null) ? <Select name = 'modelo' fipe={this.fipe} api={this} /> : ""}
-                        {(this.fipe.state.modeloSelecionado !== null) ? <Select name = 'ano' fipe={this.fipe} api={this} /> : ""}
-                    </div>
-                    <div>
-                        <button className="reset" onClick={this.handleClickReset.bind(this)}>Limpar formulário</button>
-                    </div>
-                    <div>
-                        {(this.fipe.state.veiculoSelecionado !== null)? <Veiculo fipe={this.fipe} api={this}></Veiculo> :""}
-                    </div>
+                    <p>Preencha os campos para realizar a consulta:</p>
+                     <Select name = 'tipoAuto' fipe={this.fipe} api={this} />
+                    {(this.fipe.state.tipoSelecionado !== null) ? <Select name = 'marca' fipe={this.fipe} api={this} /> : ""}
+                    {(this.fipe.state.marcaSelecionada !== null) ? <Select name = 'modelo' fipe={this.fipe} api={this} /> : ""}
+                    {(this.fipe.state.modeloSelecionado !== null) ? <Select name = 'ano' fipe={this.fipe} api={this} /> : ""}
+                    <button className="reset" onClick={this.handleClickReset.bind(this)}>Nova consulta</button>
+                    {(this.fipe.state.veiculoSelecionado !== null)? <Veiculo fipe={this.fipe} api={this}></Veiculo> :""}
                 </form>
             </div>
         );
     }
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Fipe />);
+root.render(
+    <div className="content">
+        <h1>Preço médio de veículos</h1>
+        <ol>
+            <li>A Tabela Fipe expressa preços médios de veículos no mercado nacional, servindo apenas como um parâmetro para negociações ou avaliações. Os preços efetivamente praticados variam em função da região, conservação, cor, acessórios ou qualquer outro fator que possa influenciar as condições de oferta e procura por um veículo específico.</li>
+            <li>O ano do veículo refere-se ao ano do modelo e não são considerados veículos para uso profissional ou especial.</li>
+            <li> Os valores são expressos em R$ (reais) do mês/ano de referência.</li>
+        </ol>
+        <div className="informacoes">
+            <h2>Como funciona?</h2>
+            <p>Aqui você pode consultar o preço médio de veículos novos e usados apurados pela FIPE.</p>
+            <p>Para mais informações, consulte o site oficial da <a href="https://veiculos.fipe.org.br/" target="blank">FIPE</a></p>
+            
+        </div>
+        <Fipe />
+        <p className="copyright">Este sistema usa dados fornecidos pela API não oficial da FIPE de&nbsp;
+            <a href="https://deividfortuna.github.io/fipe/v2/"> 
+                Deivid Fortuna
+            </a>
+        </p>
+    </div>
+
+);
