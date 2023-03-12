@@ -91,12 +91,12 @@ td{
     background-color: burlywood;
 }
 .result{
-    width: 96%;
-    padding: 10% 0;
+    width: 100%;
+    margin-top: 1em;
 }
 .result table{
     width: 80%;
-    margin: 0 10%;
+    margin: auto;
 }
 .copyright{
     padding: 3em;

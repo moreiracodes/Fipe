@@ -2,25 +2,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "../src/index.css"; //importa o css
+import Formulario from "./formulario"; //importa componente Formulário
 
 //Componente principal da aplicacao. Aqui sao mantidos e definidos os principais states.
 class Fipe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          tipoAuto: [
+            //Poderia ter trazido tipoAuto da API, mas como era apenas 3 categorias, inseri manualmente.
+            tipoAuto: [
             "cars", 
             "motorcycles", 
             "trucks"],
-          marcasArr: [],
-          modeloArr: [],
-          anoArr:[],
-          tipoSelecionado:null,
-          marcaSelecionada: null,
-          modeloSelecionado: null,
-          anoSelecionado: null,
-          mesReferenciaArr: [],
-          veiculoSelecionado: null,
+            marcasArr: [],
+            modeloArr: [],
+            anoArr:[],
+            tipoSelecionado:null,
+            marcaSelecionada: null,
+            modeloSelecionado: null,
+            anoSelecionado: null,
+            mesReferenciaArr: [],
+            veiculoSelecionado: null,
         }
         this.setTipoSelecionado = this.setTipoSelecionado.bind(this);
         this.setMarcasArr = this.setMarcasArr.bind(this);
@@ -75,266 +77,6 @@ class Fipe extends React.Component {
     }
     render(){
         return (<Formulario fipe = {this}/>);
-    }
-}
-
-// Componente que entrega o resultado da consulta
-class Veiculo extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        fipe: this.props.fipe,
-        auto: this.props.fipe.state.veiculoSelecionado,
-      }
-    }
-    render(){
-        let auto = this.state.auto;
-        let result;
-        if(auto !== null){
-            
-            result = 
-                    <table cellspacing="0" cellpadding="0">
-                        <tbody>
-                            <tr>
-                                <td>Cód. FIPE</td>
-                                <td>{auto.codeFipe}</td>
-                            </tr>
-                            <tr>
-                                <td>Marca</td>
-                                <td>{auto.brand}</td>
-                            </tr>
-                            <tr>
-                                <td>Modelo</td>
-                                <td>{auto.model}</td>
-                            </tr>
-                            <tr>
-                                <td>Ano Modelo</td>
-                                <td>{auto.modelYear}</td>
-                            </tr>
-                            <tr>
-                                <td>Combustível</td>
-                                <td>{auto.fuel}</td>
-                            </tr>
-                            <tr>
-                                <td>Preço</td>
-                                <td>{auto.price}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-            }
-        
-        return (<div className="result">{result}</div>);
-    }
-}
-//Componente que carrega as informaçoes de cada select, marca, modelo e ano do veículo com os dados disponibilzados pela API e atualiza os estados.
-class Select extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state ={
-        name: this.props.name
-        };
-      this.fipe = this.props.fipe;
-      this.api = this.props.api;          
-      
-      this.getDados = this.getDados.bind(this);
-      this.setCategoria = this.setCategoria.bind(this);
-      this.setMarca = this.setMarca.bind(this);
-      this.setModelo = this.setModelo.bind(this);
-      this.setAno = this.setAno.bind(this);
-      this.exibeCategoria = this.exibeCategoria.bind(this);
-    }
-
-    setCategoria(e){
-        this.fipe.setTipoSelecionado(e.target.value);
-        this.getDados(
-            e.target.value, 
-            this.fipe.state.marcaSelecionada, 
-            this.fipe.state.modeloSelecionado,
-            this.fipe.state.anoSelecionado);
-    }
-    setMarca(e){
-        this.fipe.setMarcaSelecionada(e.target.value);
-        this.getDados(
-            this.fipe.state.tipoSelecionado, 
-            e.target.value, 
-            this.fipe.state.modeloSelecionado,
-            this.fipe.state.anoSelecionado);
-    }
-    setModelo(e){
-        this.fipe.setModeloSelecionado(e.target.value);
-        this.getDados(
-            this.fipe.state.tipoSelecionado, 
-            this.fipe.state.marcaSelecionada, 
-            e.target.value,
-            this.fipe.state.anoSelecionado);
-    }
-    setAno(e){
-        this.fipe.setAnoSelecionado(e.target.value);
-        this.getDados(
-            this.fipe.state.tipoSelecionado, 
-            this.fipe.state.marcaSelecionada, 
-            this.fipe.state.modeloSelecionado, 
-            e.target.value);
-    }
-
-    getDados(categoria, marca, modelo, ano){
-        let stringAPIbase = "https://parallelum.com.br/fipe/api/v2/"; //endpoint
-        let stringAPIComplete = stringAPIbase + categoria + "/brands";
-        let infoCompleta = false;
-
-        if(marca !== null){
-            stringAPIComplete = stringAPIComplete + "/"+ marca + "/models";
-        }
-        if(marca !== null && modelo !== null){
-            stringAPIComplete = stringAPIComplete + "/" + modelo + "/years";
-        }
-        if(marca !== null && modelo !== null && ano !== null){
-            stringAPIComplete = stringAPIComplete + "/" + ano ;
-            infoCompleta = true;
-            
-        }
-       
-        fetch(stringAPIComplete)
-        .then((response) => response.json())
-        .then((data) => {
-            
-            if(!marca){ 
-                this.fipe.setMarcasArr(data);
-            }else if(!modelo){ 
-                this.fipe.setModeloArr(data);
-            }else if(!ano){ 
-                this.fipe.setAnoArr(data);
-                console.log(data);
-            }         
-            if(infoCompleta){
-                this.fipe.setVeiculoSelecionado(data);
-            }
-        })
-        .catch((erro) => {
-          console.log("erro no fetch: "+ erro);
-        });
-    }
-    
-    exibeCategoria(categoria){ // As categorias de veículos sao entregues em inglês, então traduzi para português.
-        if(categoria === 'cars'){
-            return "Carros"
-        }else if(categoria === 'motorcycles'){
-            return "Motos"
-        }else if(categoria === 'trucks'){
-            return "Caminhões e Ônibus"
-        }
-    }
-
-    render(){
-        let content;
-        if(this.state.name === 'tipoAuto'){
-            content =   <div className="line">
-                            <p>Categoria</p>
-                            <div className="selectContent">
-                                <select 
-                                    value={this.fipe.state.tipoSelecionado} 
-                                    name='tipoAuto'
-                                    onChange={this.setCategoria}
-                                    defaultValue="default">
-                                    <option valeu="default">Escolha um tipo de veículo</option>
-                                    {
-                                    this.fipe.state.tipoAuto.map((auto) => 
-                                    <option value={auto}>{this.exibeCategoria(auto)}</option>
-                                    )}
-                                </select>
-                            </div>
-                        </div>;
-        }else if(this.state.name === 'marca'){
-            content =   <div className="line">
-                            <p>Marca</p>
-                            <div className="selectContent">
-                                <select 
-                                    value={this.fipe.state.marcaSelecionada} 
-                                    name={this.state.name} 
-                                    onChange={this.setMarca}>
-                                    <option>Escolha uma marca</option>
-                                    {
-                                    this.fipe.state.marcasArr.map((marca) => 
-                                    <option value={marca.code}>{marca.name}</option>
-                                    )}
-                                </select>
-                            </div>
-                        </div>;
-
-        }else if(this.state.name === 'modelo'){
-            content =   <div className="line">
-                            <p>Modelo</p>
-                            <div className="selectContent">
-                                <select 
-                                    value={this.fipe.state.modeloSelecionado} 
-                                    name={this.state.name} 
-                                    onChange={this.setModelo}>
-                                    <option>Escolha um modelo</option>
-                                    {
-                                    this.fipe.state.modeloArr.map((modelo) => 
-                                    <option value={modelo.code}>{modelo.name}</option>
-                                    )}
-                                </select>
-                            </div>
-                        </div>;
-        }else if(this.state.name === 'ano'){
-
-            content =   <div className="line">
-                            <p>Ano Modelo</p>
-                            <div className="selectContent">
-                                <select 
-                                    value={this.fipe.state.anoSelecionado} 
-                                    name={this.state.name} 
-                                    onChange={this.setAno}>
-                                    <option>Escolha o ano</option>
-                                    {
-                                    this.fipe.state.anoArr.map((ano, i) => 
-                                    (i !== 0) ? <option value={ano.code}>{ano.name}</option> :""
-                                    )}
-                                </select>
-                            </div>
-                        </div>;
-
-        }
-
-        return(<div>{content}</div>);
-    }
-}
-
-/*
-Idealmente o componente Formulário é desnecessário. 
-Seu conteúdo poderia ter sido incluído dentro do componente principal, Fipe, 
-mas no começo do desenvolvimento tive dificuldade com a atualização de estado 
-e a soluçao que encontrei foi um componente intermediário.
-*/
-class Formulario extends React.Component {
-    constructor(props) {
-      super(props);
-      this.fipe = this.props.fipe;
-    }
-
-    handleClickReset(){
-        this.fipe.setTipoSelecionado(null);
-        this.fipe.setMarcaSelecionada(null);
-        this.fipe.setModeloSelecionado(null);
-        this.fipe.setAnoSelecionado(null);
-        this.fipe.setVeiculoSelecionado(null);
-    }
-
-    render(){
-        return (
-            <div className="formulario">
-                <form>
-                    <p>Preencha os campos para realizar a consulta:</p>
-                     <Select name = 'tipoAuto' fipe={this.fipe} api={this} />
-                    {(this.fipe.state.tipoSelecionado !== null) ? <Select name = 'marca' fipe={this.fipe} api={this} /> : ""}
-                    {(this.fipe.state.marcaSelecionada !== null) ? <Select name = 'modelo' fipe={this.fipe} api={this} /> : ""}
-                    {(this.fipe.state.modeloSelecionado !== null) ? <Select name = 'ano' fipe={this.fipe} api={this} /> : ""}
-                    <button className="reset" onClick={this.handleClickReset.bind(this)}>Nova consulta</button>
-                    {(this.fipe.state.veiculoSelecionado !== null)? <Veiculo fipe={this.fipe} api={this}></Veiculo> :""}
-                </form>
-            </div>
-        );
     }
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
