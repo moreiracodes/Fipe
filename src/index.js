@@ -1,8 +1,9 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "../src/index.css";
+import "../src/index.css"; //importa o css
 
+//Componente principal da aplicacao. Aqui sao mantidos e definidos os principais states.
 class Fipe extends React.Component {
     constructor(props) {
         super(props);
@@ -76,6 +77,8 @@ class Fipe extends React.Component {
         return (<Formulario fipe = {this}/>);
     }
 }
+
+// Componente que entrega o resultado da consulta
 class Veiculo extends React.Component {
     constructor(props) {
       super(props);
@@ -83,8 +86,6 @@ class Veiculo extends React.Component {
         fipe: this.props.fipe,
         auto: this.props.fipe.state.veiculoSelecionado,
       }
- 
-
     }
     render(){
         let auto = this.state.auto;
@@ -125,6 +126,7 @@ class Veiculo extends React.Component {
         return (<div className="result">{result}</div>);
     }
 }
+//Componente que carrega as informaçoes de cada select, marca, modelo e ano do veículo com os dados disponibilzados pela API e atualiza os estados.
 class Select extends React.Component {
     constructor(props) {
       super(props);
@@ -176,31 +178,26 @@ class Select extends React.Component {
     }
 
     getDados(categoria, marca, modelo, ano){
-        //https://deividfortuna.github.io/fipe/v2/
-        let stringAPIbase = "https://parallelum.com.br/fipe/api/v2/";
+        let stringAPIbase = "https://parallelum.com.br/fipe/api/v2/"; //endpoint
         let stringAPIComplete = stringAPIbase + categoria + "/brands";
         let infoCompleta = false;
 
         if(marca !== null){
             stringAPIComplete = stringAPIComplete + "/"+ marca + "/models";
-            //console.log("stringAPIComplete COM MARCA: " + stringAPIComplete);
         }
         if(marca !== null && modelo !== null){
             stringAPIComplete = stringAPIComplete + "/" + modelo + "/years";
-            //console.log("stringAPIComplete COM MODELO: " + stringAPIComplete);
         }
         if(marca !== null && modelo !== null && ano !== null){
             stringAPIComplete = stringAPIComplete + "/" + ano ;
             infoCompleta = true;
-            //console.log("stringAPIComplete COM ANO: " + stringAPIComplete);
+            
         }
-        //https://parallelum.com.br/fipe/api/v2/{vehicleType}/brands/{brandId}/models/{modelId}/years
-        //console.log("stringAPIComplete: " + stringAPIComplete);
+       
         fetch(stringAPIComplete)
         .then((response) => response.json())
         .then((data) => {
-            //console.log("exibe no console o resultado da API");
-            //console.log(data); //exibe no console o resultado da API
+            
             if(!marca){ 
                 this.fipe.setMarcasArr(data);
             }else if(!modelo){ 
@@ -214,11 +211,11 @@ class Select extends React.Component {
             }
         })
         .catch((erro) => {
-          console.log("erro no fetch then: "+ erro);
+          console.log("erro no fetch: "+ erro);
         });
     }
     
-    exibeCategoria(categoria){
+    exibeCategoria(categoria){ // As categorias de veículos sao entregues em inglês, então traduzi para português.
         if(categoria === 'cars'){
             return "Carros"
         }else if(categoria === 'motorcycles'){
@@ -241,10 +238,8 @@ class Select extends React.Component {
                                     defaultValue="default">
                                     <option valeu="default">Escolha um tipo de veículo</option>
                                     {
-                                    
                                     this.fipe.state.tipoAuto.map((auto) => 
-                                       <option value={auto}>{this.exibeCategoria(auto)}</option>
-                                      
+                                    <option value={auto}>{this.exibeCategoria(auto)}</option>
                                     )}
                                 </select>
                             </div>
@@ -258,7 +253,8 @@ class Select extends React.Component {
                                     name={this.state.name} 
                                     onChange={this.setMarca}>
                                     <option>Escolha uma marca</option>
-                                    {this.fipe.state.marcasArr.map((marca) => 
+                                    {
+                                    this.fipe.state.marcasArr.map((marca) => 
                                     <option value={marca.code}>{marca.name}</option>
                                     )}
                                 </select>
@@ -274,7 +270,8 @@ class Select extends React.Component {
                                     name={this.state.name} 
                                     onChange={this.setModelo}>
                                     <option>Escolha um modelo</option>
-                                    {this.fipe.state.modeloArr.map((modelo) => 
+                                    {
+                                    this.fipe.state.modeloArr.map((modelo) => 
                                     <option value={modelo.code}>{modelo.name}</option>
                                     )}
                                 </select>
@@ -290,7 +287,8 @@ class Select extends React.Component {
                                     name={this.state.name} 
                                     onChange={this.setAno}>
                                     <option>Escolha o ano</option>
-                                    {this.fipe.state.anoArr.map((ano, i) => 
+                                    {
+                                    this.fipe.state.anoArr.map((ano, i) => 
                                     (i !== 0) ? <option value={ano.code}>{ano.name}</option> :""
                                     )}
                                 </select>
@@ -299,11 +297,16 @@ class Select extends React.Component {
 
         }
 
-        return(
-            <div>{content}</div>
-        );
+        return(<div>{content}</div>);
     }
 }
+
+/*
+Idealmente o componente Formulário é desnecessário. 
+Seu conteúdo poderia ter sido incluído dentro do componente principal, Fipe, 
+mas no começo do desenvolvimento tive dificuldade com a atualização de estado 
+e a soluçao que encontrei foi um componente intermediário.
+*/
 class Formulario extends React.Component {
     constructor(props) {
       super(props);
@@ -319,7 +322,6 @@ class Formulario extends React.Component {
     }
 
     render(){
-
         return (
             <div className="formulario">
                 <form>
