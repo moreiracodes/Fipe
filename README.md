@@ -7,4 +7,8 @@ Os dados são fornecidos pela <a href="https://github.com/deividfortuna/fipe" ta
 
 O projeto tem propósitos academicos, em especial com relação ao consumo de dados de uma API REST utilizando ReactJS.
 
-<img src = "/src/img/readme/index0.png">
+A tela inicial do sistema:
+<img src = "src/img/readme/index0.png" alt="Página inicial" />
+Para realizar a consulta o usuário deve escolher uma categoria, que quando selecionada carregará as marcas de veículos disponíveis para aquela categoria.
+
+<img src = "src/img/readme/categoria.png" alt="Categorias" />
