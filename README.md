@@ -1,15 +1,15 @@
 
 <h1>FIPE - Preço de veículos usados</h1>
 
-O sistema tem por finalidade consultar o preço médio de veículos com base nos dados da Tabela FIPE. 
+<p>O sistema tem por finalidade consultar o preço médio de veículos com base nos dados da Tabela FIPE.</p> 
 
-Os dados são fornecidos pela <a href="https://github.com/deividfortuna/fipe" target="blank">API</a> não oficial da FIPE.
+<p>Os dados são fornecidos pela <a href="https://github.com/deividfortuna/fipe" target="blank">API</a> não oficial da FIPE.</p>
 
-O projeto tem propósitos academicos, em especial com relação ao consumo de dados de uma API REST utilizando ReactJS.
+<p>O projeto tem propósitos academicos, em especial com relação ao consumo de dados de uma API REST utilizando ReactJS.</p>
 
-A tela inicial do sistema:
+<p>A tela inicial do sistema:</p>
 <img src = "src/img/readme/index0.png" alt="Página inicial" />
-Para realizar a consulta o usuário deve escolher uma categoria, que quando selecionada carregará as marcas de veículos disponíveis para aquela categoria.
+<p>Para realizar a consulta o usuário deve escolher uma categoria, que quando selecionada carregará as marcas de veículos disponíveis para aquela categoria.</p>
 
 <img src = "src/img/readme/categoria.png" alt="Categorias" width="300"/>
 <br />
