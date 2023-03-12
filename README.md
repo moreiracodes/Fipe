@@ -3,7 +3,7 @@
 
 <p>O sistema tem por finalidade consultar o preço médio de veículos com base nos dados da Tabela FIPE.</p> 
 
-<p>Os dados são fornecidos por está <a href="https://github.com/deividfortuna/fipe" target="blank">API</a> não oficial da FIPE.</p>
+<p>Os dados são fornecidos por está <a href="https://github.com/deividfortuna/fipe" target="_blank">API</a> não oficial da FIPE.</p>
 
 <p>O projeto tem propósitos academicos, em especial com relação ao consumo de dados de uma API REST utilizando ReactJS.</p>
 
