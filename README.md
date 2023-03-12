@@ -19,4 +19,4 @@ Para realizar a consulta o usuário deve escolher uma categoria, que quando sele
 <br />
 <img src = "src/img/readme/ano.png" alt="Anos" width="300" />
 <br />
-<img src = "src/img/readme/resultado.png" alt="Resultado da consulta" />
+<img src = "src/img/readme/resultado.png" alt="Resultado da consulta" width=500 />
