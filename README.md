@@ -24,4 +24,4 @@
 <p>Ao escolher o ano veículo, o sistema encontrará o veículo que preenche todos os parâmetros e entregará seu preço médio praticado no mercado de usados, de acordo com a Tabela FIPE.</p>
 <img src = "src/img/readme/resultado.png" alt="Resultado da consulta" width=500 />
 <h2>Considerações Finais</h2>
-<p>Esse projeto serviu-me para aprimorar noções de componentização, bem como vivenciar desafios e buscar soluções em relação ao consumo de dados em formato JSON e sua disponibilização, considerando restriçoes de acesso (CORS).</p>
+<p>Esse projeto serviu-me para aprimorar noções de componentização, bem como vivenciar desafios e buscar soluções em relação ao consumo de dados em formato JSON e sua disponibilização, considerando restrições de acesso (CORS).</p>
