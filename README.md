@@ -11,4 +11,12 @@ A tela inicial do sistema:
 <img src = "src/img/readme/index0.png" alt="Página inicial" />
 Para realizar a consulta o usuário deve escolher uma categoria, que quando selecionada carregará as marcas de veículos disponíveis para aquela categoria.
 
-<img src = "src/img/readme/categoria.png" alt="Categorias" />
+<img src = "src/img/readme/categoria.png" alt="Categorias"  width="300"/>
+<br />
+<img src = "src/img/readme/marcas.png" alt="Marcas" />
+<br />
+<img src = "src/img/readme/modelo.png" alt="Modelos" />
+<br />
+<img src = "src/img/readme/ano.png" alt="Anos" />
+<br />
+<img src = "src/img/readme/resultado.png" alt="Resultado da consulta" />

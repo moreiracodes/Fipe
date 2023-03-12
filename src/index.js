@@ -207,6 +207,7 @@ class Select extends React.Component {
                 this.fipe.setModeloArr(data);
             }else if(!ano){ 
                 this.fipe.setAnoArr(data);
+                console.log(data);
             }         
             if(infoCompleta){
                 this.fipe.setVeiculoSelecionado(data);
@@ -242,9 +243,8 @@ class Select extends React.Component {
                                     {
                                     
                                     this.fipe.state.tipoAuto.map((auto) => 
-                                       
-                                        <option value={auto}>{this.exibeCategoria(auto)}</option>
-                                        
+                                       <option value={auto}>{this.exibeCategoria(auto)}</option>
+                                      
                                     )}
                                 </select>
                             </div>
@@ -290,8 +290,8 @@ class Select extends React.Component {
                                     name={this.state.name} 
                                     onChange={this.setAno}>
                                     <option>Escolha o ano</option>
-                                    {this.fipe.state.anoArr.map((ano) => 
-                                    <option value={ano.code}>{ano.name}</option>
+                                    {this.fipe.state.anoArr.map((ano, i) => 
+                                    (i !== 0) ? <option value={ano.code}>{ano.name}</option> :""
                                     )}
                                 </select>
                             </div>
