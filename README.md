@@ -7,4 +7,4 @@ Os dados são fornecidos pela <a href="https://github.com/deividfortuna/fipe" ta
 
 O projeto tem propósitos academicos, em especial com relação ao consumo de dados de uma API REST utilizando ReactJS.
 
-<img src = "/src/img/readme/index0.png>
+<img src = "/src/img/readme/index0.png">
